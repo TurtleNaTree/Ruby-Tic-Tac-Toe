@@ -61,20 +61,33 @@ class TicTacToe
     end
     def check_for_horizontal_win
         x = 0
+        @game_board[0] = "x"
+        @game_board[1] = "x"
         @game_board[2] = "x"
         @game_board[4] = "o"
         while x < 7
             row_to_check = game_board.slice(x,3)
             puts "current row is #{row_to_check}"
+            case current_player
+                when "Player 1"
+                    game_win if row_to_check.all?("x") 
+                when "Player 2"
+                    game_win if row_to_check.all?("0")
+                else
+                    puts "Something went wrong in check_for_horizontal_win"
+            end
             x += 3
         end
 
+    end
+    def game_win
+        puts "#{current_player} Wins!!!"
     end
 end
 
 lets_play = TicTacToe.new
 lets_play.display_board()
 lets_play.check_for_horizontal_win
-lets_play.place_piece
-lets_play.display_board()
+#lets_play.place_piece
+#lets_play.display_board()
 #puts [1, 2, 3, 4, 5, 6, 7, 8, 9] - [1, 3, 5, 7, 9]
