@@ -1,12 +1,13 @@
 class TicTacToe
     private
-    attr_reader :current_player, :game_board
+    attr_reader :current_player, :game_board, :player1_score, :player2_score
 
     public
     def initialize
         @current_player = "Player 1"
         @game_board = Array.new(9)
-        
+        @player1_score = 0
+        @player2_score = 0
     end
 
     def display_board
@@ -61,18 +62,20 @@ class TicTacToe
     end
     def check_for_horizontal_win
         x = 0
-        @game_board[0] = "x"
-        @game_board[1] = "x"
-        @game_board[2] = "x"
-        @game_board[4] = "o"
         while x < 7
             row_to_check = game_board.slice(x,3)
             puts "current row is #{row_to_check}"
             case current_player
                 when "Player 1"
-                    game_win if row_to_check.all?("x") 
+                    if row_to_check.all?("x")
+                        game_win
+                        break  
+                    end
                 when "Player 2"
-                    game_win if row_to_check.all?("0")
+                    if row_to_check.all?("0")
+                        game_win 
+                        break
+                    end
                 else
                     puts "Something went wrong in check_for_horizontal_win"
             end
@@ -80,14 +83,65 @@ class TicTacToe
         end
 
     end
+
+    def check_for_vertical_win
+        vertical_row = 0
+        while vertical_row < 3
+            columns_to_check = []
+            columns_to_check.push(game_board[vertical_row], game_board[vertical_row + 3], game_board[vertical_row + 6])
+            puts "current col is #{columns_to_check}"
+            case current_player
+            when "Player 1"
+                if columns_to_check.all?("x")
+                    game_win
+                    break
+                end 
+            when "Player 2"
+                if columns_to_check.all?("0")
+                    game_win
+                    break
+                end
+            else
+                puts "Something went wrong in check_for_vertical_win"
+            end
+            vertical_row += 1
+        end
+    end
+
+    def check_for_cross_win
+        first_cross_to_check, second_cross_to_check = []
+        first_cross_to_check = [game_board[0], game_board[4], game_board[8]]
+        second_cross_to_check = [game_board[2], game_board[4], game_board[7]]
+        case current_player
+            when "Player 1"
+                if first_cross_to_check.all?("x") || second_cross_to_check.all?("x")
+                    game_win  
+                end 
+            when "Player 2"
+                if first_cross_to_check.all?("0") || second_cross_to_check.all?("0")
+                    game_win
+                end
+            else
+                puts "Something went wrong in check_for_vertical_win"
+        end
+    end
+
     def game_win
+        case current_player
+            when "Player 1"
+                @player1_score += 1
+            when "Player 2"
+                @player2_score += 1
         puts "#{current_player} Wins!!!"
     end
+
 end
 
 lets_play = TicTacToe.new
-lets_play.display_board()
-lets_play.check_for_horizontal_win
+lets_play.display_board
+#lets_play.check_for_vertical_win
+#lets_play.check_for_horizontal_win
+lets_play.check_for_cross_win
 #lets_play.place_piece
 #lets_play.display_board()
 #puts [1, 2, 3, 4, 5, 6, 7, 8, 9] - [1, 3, 5, 7, 9]
