@@ -22,6 +22,12 @@ class TicTacToe
         end
     end
 
+    def clear_board
+        @game_board.each do |game_space|
+            game_space = nil
+        end
+    end
+
     def check_player_choice(player_choice)
         (player_choice > 0) && (player_choice < 10) ? true : false
     end
@@ -52,9 +58,16 @@ class TicTacToe
         case current_player
             when "Player 1"
                 game_board[player_choice] = "x"
+                check_for_cross_win
+                check_for_horizontal_win
+                check_for_vertical_win
                 switch_player
             when "Player 2"
                 game_board[player_choice] = "0"
+                check_for_cross_win
+                check_for_horizontal_win
+                check_for_vertical_win
+                switch_player
             else
                 puts "Something went wrong in place_piece"
         end 
@@ -64,7 +77,7 @@ class TicTacToe
         x = 0
         while x < 7
             row_to_check = game_board.slice(x,3)
-            puts "current row is #{row_to_check}"
+            #puts "current row is #{row_to_check}"
             case current_player
                 when "Player 1"
                     if row_to_check.all?("x")
@@ -89,7 +102,7 @@ class TicTacToe
         while vertical_row < 3
             columns_to_check = []
             columns_to_check.push(game_board[vertical_row], game_board[vertical_row + 3], game_board[vertical_row + 6])
-            puts "current col is #{columns_to_check}"
+            #puts "current col is #{columns_to_check}"
             case current_player
             when "Player 1"
                 if columns_to_check.all?("x")
@@ -132,16 +145,34 @@ class TicTacToe
                 @player1_score += 1
             when "Player 2"
                 @player2_score += 1
+        end
         puts "#{current_player} Wins!!!"
+        display_scores
+        clear_board
+    end
+
+    def display_scores
+        puts "Player 1 has #{player1_score} wins"
+        puts "Player 2 has #{player2_score} wins"
+    end
+
+    def play_game
+        puts "\t\tTic Tac Toe!!!\n\t\tFirst to 3 wins!!!"
+
+        until player1_score == 3 || player2_score == 3
+            display_board
+            place_piece
+        end
+
     end
 
 end
 
 lets_play = TicTacToe.new
-lets_play.display_board
+lets_play.play_game
 #lets_play.check_for_vertical_win
 #lets_play.check_for_horizontal_win
-lets_play.check_for_cross_win
+#lets_play.check_for_cross_win
 #lets_play.place_piece
 #lets_play.display_board()
 #puts [1, 2, 3, 4, 5, 6, 7, 8, 9] - [1, 3, 5, 7, 9]
