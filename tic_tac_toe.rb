@@ -84,7 +84,6 @@ class TicTacToe
         x = 0
         while x < 7
             row_to_check = game_board.slice(x,3)
-            #puts "current row is #{row_to_check}"
             case current_player
                 when "Player 1"
                     if row_to_check.all?("x")
@@ -109,7 +108,6 @@ class TicTacToe
         while vertical_row < 3
             columns_to_check = []
             columns_to_check.push(game_board[vertical_row], game_board[vertical_row + 3], game_board[vertical_row + 6])
-            #puts "current col is #{columns_to_check}"
             case current_player
             when "Player 1"
                 if columns_to_check.all?("x")
@@ -183,9 +181,3 @@ end
 
 lets_play = TicTacToe.new
 lets_play.play_game
-#lets_play.check_for_vertical_win
-#lets_play.check_for_horizontal_win
-#lets_play.check_for_cross_win
-#lets_play.place_piece
-#lets_play.display_board()
-#puts [1, 2, 3, 4, 5, 6, 7, 8, 9] - [1, 3, 5, 7, 9]
