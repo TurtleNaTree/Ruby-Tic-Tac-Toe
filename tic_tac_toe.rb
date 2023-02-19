@@ -70,9 +70,16 @@ class TicTacToe
                 switch_player
             else
                 puts "Something went wrong in place_piece"
-        end 
+        end
+        
+        game_draw unless check_for_draw
 
     end
+
+    def check_for_draw
+        game_board.any?{ |game_space| game_space == nil }
+    end
+
     def check_for_horizontal_win
         x = 0
         while x < 7
@@ -147,6 +154,12 @@ class TicTacToe
                 @player2_score += 1
         end
         puts "#{current_player} Wins!!!"
+        display_scores
+        clear_board
+    end
+
+    def game_draw
+        puts "\t\tDRAW!!!\n\t\tPlay again!"
         display_scores
         clear_board
     end
