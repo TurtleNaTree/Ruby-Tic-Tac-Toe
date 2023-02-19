@@ -23,13 +23,13 @@ class TicTacToe
     end
 
     def clear_board
-        @game_board.each do |game_space|
-            game_space = nil
-        end
+        game_board.fill(nil)
     end
 
     def check_player_choice(player_choice)
-        (player_choice > 0) && (player_choice < 10) ? true : false
+        if (player_choice > 0) && (player_choice < 10) ? true : false
+            game_board[player_choice - 1] == nil ? true : false
+        end
     end
 
     def get_game_space(game_space, index)
